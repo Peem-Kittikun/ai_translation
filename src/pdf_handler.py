@@ -15,9 +15,11 @@ from google.genai import types
 
 class PDFExtractor:
     
-    def __init__(self, pdf_path):
-        self.pdf_path = pdf_path
-        print(f"Extractor initialized for: {self.pdf_path}")
+    #def __init__(self, pdf_path):
+    def __init__(self):
+        return
+        #self.pdf_path = pdf_path
+        # print(f"Extractor initialized for: {self.pdf_path}")
         
     def read_file_md(self, file_path: str) ->str:
         """    Reads a markdown file and returns its content.
@@ -90,7 +92,7 @@ class PDFExtractor:
     
     
     
-    def extract_text(self,prompt_file_path,base64_pdf, temperature):
+    def extract_text(self,prompt_file_path,input_pdf_path,page_num,temperature):
         """    Extracts text from a PDF using Vertex AI.
 
         Args:
@@ -102,6 +104,9 @@ class PDFExtractor:
             str: The extracted text.
         
         """
+        pdf_file = self.read_pdf_file(input_pdf_path)
+        base64_pdf = self.convert_page_to_base64(pdf_file,page_num)
+        
         #prompt = self.read_file_md(prompt_file_path)
         client = genai.Client(api_key=GEMINI_API_KEY)
 

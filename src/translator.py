@@ -5,17 +5,18 @@ from google.genai import types
 from config import GEMINI_API_KEY
 
 class GeminiTranslator:
-    def __init__(self,original_text,source_lang,target_lang):
+    #def __init__(self,original_text,source_lang,target_lang):
+    def __init__(self):
         
-        self.source_lang=source_lang
-        self.target_lang=target_lang
-        self.original_text=original_text
+        # self.source_lang=source_lang
+        # self.target_lang=target_lang
+        # self.original_text=original_text
         print("Translator initialized.")
 
 
 
 
-    def translate(self):
+    def translate(self,original_text,source_lang,target_lang):
         client = genai.Client(api_key=GEMINI_API_KEY)
 
         model = "gemini-2.0-flash"
@@ -23,8 +24,8 @@ class GeminiTranslator:
             types.Content(
                 role="user",
                 parts=[
-                    types.Part.from_text(text=f"""Your task is to translate the text below from {self.source_lang} to {self.target_lang} language
-                                         text: {self.original_text}"""),
+                    types.Part.from_text(text=f"""Your task is to translate the text below from {source_lang} to {target_lang} language
+                                         text: {original_text}"""),
                 ],
             ),
         ]
