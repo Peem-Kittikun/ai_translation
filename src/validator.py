@@ -2,7 +2,7 @@ import base64
 import os
 from google import genai
 from google.genai import types
-from config import GEMINI_API_KEY
+from src.config import GEMINI_API_KEY
 
 class AIValidator:
     def __init__(self,original_text,translated_text,source_lang,target_lang):

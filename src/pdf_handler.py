@@ -8,7 +8,7 @@ from collections import Counter
 from PIL import Image
 import cv2
 import numpy as np
-from config import GEMINI_API_KEY
+from src.config import GEMINI_API_KEY
 from google import genai
 from google.genai import types
 

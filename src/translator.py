@@ -2,7 +2,7 @@ import base64
 import os
 from google import genai
 from google.genai import types
-from config import GEMINI_API_KEY
+from src.config import GEMINI_API_KEY
 
 class GeminiTranslator:
     #def __init__(self,original_text,source_lang,target_lang):
@@ -25,7 +25,7 @@ class GeminiTranslator:
                 role="user",
                 parts=[
                     types.Part.from_text(text=f"""Your task is to translate the text below from {source_lang} to {target_lang} language
-                                         text: {original_text}"""),
+                                         text: {original_text} your output include only the text appear only"""),
                 ],
             ),
         ]

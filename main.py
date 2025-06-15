@@ -1,24 +1,32 @@
 import os
-from dotenv import load_dotenv
-from src.pipeline import TranslationPipeline
-
-# โหลดค่าจากไฟล์ .env เข้าสู่ environment variables
-load_dotenv()
+from src.pipeline_2 import TranslationPipeline  # <-- เปลี่ยนเป็น path ที่คุณใช้จริง ถ้าอยู่ใน src
+# หรือหาก class อยู่ในไฟล์เดียวกันกับ main.py ให้ลบบรรทัดนี้
 
 def main():
-    # ดึง API Key จาก environment variable
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        print("Error: GEMINI_API_KEY is not set in the .env file.")
-        return
+    # กำหนดค่าต่างๆ
+    filename = 'testt3.docx'
+    input_pdf_path = "./data/input/M.A.D Bootcamp - Program Journey & Course Outline.pdf"
+    output_docx_path = "./data/output"
+    source_lang = 'thai'
+    target_lang = 'english'
+    page_num = 4
 
-    # กำหนดพาธของไฟล์
-    input_file = "data/input/your_document.pdf"
-    output_file = "data/output/translated_document.docx"
+    # ตรวจสอบ path
+    if not os.path.exists(input_pdf_path):
+        raise FileNotFoundError(f"ไม่พบไฟล์ PDF: {input_pdf_path}")
 
-    # สร้างและรัน pipeline
-    pipeline = TranslationPipeline(api_key=api_key)
-    pipeline.run(input_pdf_path=input_file, output_docx_path=output_file)
+    os.makedirs(output_docx_path, exist_ok=True)
+
+    # เรียกใช้ Pipeline
+    pipeline = TranslationPipeline(
+        input_pdf_path=input_pdf_path,
+        source_lang=source_lang,
+        target_lang=target_lang,
+        page_num=page_num,
+        output_docx_path=output_docx_path,
+        filename=filename
+    )
+    pipeline.run()
 
 if __name__ == "__main__":
     main()
