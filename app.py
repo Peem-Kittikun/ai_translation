@@ -43,9 +43,17 @@ if uploaded_file and st.button("🚀 Translate"):
         translated_text = pipeline._TranslationPipeline__translator.translate(extract_text, source_lang, target_lang)
         col1, col2 = st.columns(2)
         with col1:
-            st.info(f"**Extracted Text:**\n{extract_text}")
+            st.markdown(
+                f'<div style="height:600px;overflow:auto;border:1px solid #ddd;padding:8px;background:#f9f9f9;">'
+                f'<b>Extracted Text:</b><br>{extract_text.replace(chr(10),"<br>")}'
+
+                f'</div>', unsafe_allow_html=True)
         with col2:
-            st.info(f"**Translated Text:**\n{translated_text}")
+            st.markdown(
+                f'<div style="height:600px;overflow:auto;border:1px solid #ddd;padding:8px;background:#f9f9f9;">'
+                f'<b>Translated Text:</b><br>{translated_text.replace(chr(10),"<br>")}'
+
+                f'</div>', unsafe_allow_html=True)
         pipeline.run()
 
         # แสดงผลลัพธ์ และให้ดาวน์โหลด
