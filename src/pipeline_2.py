@@ -8,7 +8,7 @@ from src.translator import GeminiTranslator
 from src.validator import AIValidator
 from src.writer import DocxWriter
 from src.config import GEMINI_API_KEY
-
+import psycopg2
 
 
 class TranslationPipeline:
@@ -33,6 +33,7 @@ class TranslationPipeline:
         #pdf_file = self.pdf_handler.read_pdf_file(self.input_pdf_path)
         #base64_data = self.pdf_handler.convert_page_to_base64(pdf_file,self.page_num)
         #prompt_file_path,input_pdf_path,page_num
+        
         extract_text = self.pdf_handler.extract_text('',self.input_pdf_path,self.page_num,temperature=1)
         
         
@@ -54,8 +55,34 @@ class TranslationPipeline:
         save_text = f"{translated_text}\n{validate_result}"
         savefile = self.docxwriter.write_to_docx(save_text)
         
-        
+        # Save to database
+        self.save_to_db(self.filename, extract_text, translated_text)
         print("\n--- Pipeline Finished Successfully ---")
+        
+    def save_to_db(self,filename, src_text, translated_text):
+            conn = psycopg2.connect(
+                dbname="postgres",
+                user="postgres",
+                password="1234",
+                host="localhost",
+                port="5432"
+            )
+            cur = conn.cursor()
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS public.translated_log (
+                    id SERIAL PRIMARY KEY,
+                    filename TEXT,
+                    src_text TEXT,
+                    translated_text TEXT
+                )
+            """)
+            cur.execute(
+                "INSERT INTO public.translated_log (filename, src_text, translated_text) VALUES (%s, %s, %s)",
+                (filename, src_text, translated_text)
+            )
+            conn.commit()
+            cur.close()
+            conn.close()
 
 if __name__ == "__main__":
     filename='testt3'

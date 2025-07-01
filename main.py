@@ -7,8 +7,8 @@ def main():
     filename = 'testt3.docx'
     input_pdf_path = "./data/input/M.A.D Bootcamp - Program Journey & Course Outline.pdf"
     output_docx_path = "./data/output"
-    source_lang = 'thai'
-    target_lang = 'english'
+    source_lang = 'english'
+    target_lang = 'thai'
     page_num = 4
 
     # ตรวจสอบ path

@@ -19,7 +19,7 @@ class GeminiTranslator:
     def translate(self,original_text,source_lang,target_lang):
         client = genai.Client(api_key=GEMINI_API_KEY)
 
-        model = "gemini-2.0-flash"
+        model = "gemini-2.0-flash-lite"
         contents = [
             types.Content(
                 role="user",
