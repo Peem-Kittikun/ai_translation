@@ -38,6 +38,14 @@ if uploaded_file and st.button("🚀 Translate"):
             output_docx_path=output_path,
             filename=filename
         )
+        # ดึง preview text
+        extract_text = pipeline.pdf_handler.extract_text('', input_path, page_num, temperature=1)
+        translated_text = pipeline._TranslationPipeline__translator.translate(extract_text, source_lang, target_lang)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.info(f"**Extracted Text:**\n{extract_text}")
+        with col2:
+            st.info(f"**Translated Text:**\n{translated_text}")
         pipeline.run()
 
         # แสดงผลลัพธ์ และให้ดาวน์โหลด
